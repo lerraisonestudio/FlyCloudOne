@@ -6,6 +6,10 @@ from flask_mail import Mail
 from config import Config
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
+
+# 🔹 Cargar variables desde .env
+load_dotenv()
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -271,5 +275,4 @@ def index():
 if __name__ == "__main__":
     # Local solamente. En Railway arranca con gunicorn via Procfile.
     app.run(host="0.0.0.0", port=5000, debug=True)
-
 

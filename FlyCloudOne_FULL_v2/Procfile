@@ -1,1 +1,2 @@
 web: gunicorn FlyCloudOne_FULL_v2.app:app
+web: gunicorn app:app

@@ -335,7 +335,8 @@ def index():
             files[cat] = []
     return render_template("index.html", **files)
 
-if __name__ == "__main__":
-    # Local solamente. En Railway arranca con gunicorn via Procfile.
-    app.run(host="0.0.0.0", port=5000, debug=True)
+import os
 
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)

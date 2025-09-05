@@ -12,6 +12,8 @@ from dotenv import load_dotenv
 
 # 🔹 Cargar variables desde .env
 load_dotenv()
+# Cloudinary se configura automáticamente desde CLOUDINARY_URL; forzamos HTTPS
+cloudinary.config(secure=True)
 
 app = Flask(__name__)
 app.config.from_object(Config)

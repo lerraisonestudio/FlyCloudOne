@@ -257,6 +257,19 @@ def upload(category):
 def download(category, filename):
     if category not in CATEGORIES:
         return redirect(url_for("index"))
+
+    if USING_PG:
+        row = run(
+            "SELECT url FROM files WHERE user_id = ? AND category = ? AND file_name = ?",
+            (session["user_id"], category, filename),
+            fetchone=True
+        )
+        if row:
+            # Redirige al URL (Cloudinary sirve el archivo)
+            return redirect(row[0])
+        return redirect(url_for("index") + f"#{category}")
+
+    # Local (sin DB)
     return send_from_directory(os.path.join(app.config["UPLOAD_FOLDER"], category), filename, as_attachment=True)
 
 @app.route("/preview/<category>/<path:filename>")

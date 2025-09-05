@@ -223,13 +223,33 @@ def upload(category):
         return redirect(url_for("index"))
     if "file" not in request.files:
         return redirect(url_for("index"))
+
     file = request.files["file"]
     if not file or file.filename == "":
         return redirect(url_for("index"))
-    if allowed_file(file.filename, category):
-        filename = secure_filename(file.filename)
-        save_path = os.path.join(app.config["UPLOAD_FOLDER"], category, filename)
-        file.save(save_path)
+    if not allowed_file(file.filename, category):
+        return redirect(url_for("index"))
+
+    # Si hay Postgres (Railway), sube a Cloudinary y guarda en DB
+    if USING_PG:
+        # Carpeta por categoría y usuario para mantener ordenado
+        folder = f"{category}/{session['user_id']}"
+        result = cloudinary.uploader.upload(file, folder=folder)
+        public_id = result["public_id"]
+        file_url = result["secure_url"]
+        file_name = secure_filename(file.filename)
+
+        run(
+            "INSERT INTO files (user_id, category, file_name, public_id, url) VALUES (?, ?, ?, ?, ?)",
+            (session["user_id"], category, file_name, public_id, file_url),
+            commit=True
+        )
+        return redirect(url_for("index") + f"#{category}")
+
+    # Si estás local sin DB, usa la carpeta uploads como antes
+    filename = secure_filename(file.filename)
+    save_path = os.path.join(app.config["UPLOAD_FOLDER"], category, filename)
+    file.save(save_path)
     return redirect(url_for("index") + f"#{category}")
 
 @app.route("/download/<category>/<filename>")
@@ -244,6 +264,19 @@ def download(category, filename):
 def preview(category, filename):
     if category not in CATEGORIES:
         return redirect(url_for("index"))
+
+    if USING_PG:
+        row = run(
+            "SELECT url FROM files WHERE user_id = ? AND category = ? AND file_name = ?",
+            (session["user_id"], category, filename),
+            fetchone=True
+        )
+        if row:
+            # Redirige al archivo en Cloudinary para verlo en el navegador
+            return redirect(row[0])
+        return redirect(url_for("index") + f"#{category}")
+
+    # Local (sin DB)
     return send_from_directory(os.path.join(app.config["UPLOAD_FOLDER"], category), filename, as_attachment=False)
 
 @app.route("/uploads/<category>/<path:filename>")

@@ -1,0 +1,5 @@
+id (int, PK, autoincrement)
+username (text, unique)
+email (text, unique)
+password_hash (text)
+created_at (datetime)

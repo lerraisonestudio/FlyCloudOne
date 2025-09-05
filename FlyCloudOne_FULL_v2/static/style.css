@@ -1,0 +1,93 @@
+/* === General === */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #000; /* Fondo negro por defecto */
+    color: #fff;
+}
+
+/* === Contenedor principal === */
+.form-container {
+    background-color: #ff3333;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    text-align: center;
+    width: 450px;
+    margin: 50px auto;
+}
+
+/* === Títulos === */
+.form-container h1 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: black;
+}
+
+/* === Inputs === */
+.form-container input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+/* === Botón principal === */
+.btn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #cc0000;
+    color: #fff;
+}
+
+/* === Botones extra (en fila) === */
+.extra-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.extra-buttons .btn {
+    width: auto;
+    padding: 12px 20px;
+    font-size: 16px;
+}
+
+/* === Mensajes === */
+.error-message {
+    color: #fff;
+    background: #cc0000;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 15px;
+    margin-top: 15px;
+}
+
+.success-message {
+    color: #fff;
+    background: #28a745;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 15px;
+    margin-top: 15px;
+}
+
+

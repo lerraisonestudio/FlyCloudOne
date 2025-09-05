@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}Registro - FlyCloudOne{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #8F1F1F;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .register-container {
+    background-color: #ff3333;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    text-align: center;
+    width: 450px;
+  }
+
+  .register-container .logo {
+    width: 250px;
+    margin-bottom: 10px;
+  }
+
+  .register-container h2 {
+    margin-bottom: 20px;
+    font-size: 26px;
+    color: black;
+  }
+
+  .register-container h3 {
+    margin-bottom: 25px;
+    font-size: 20px;
+    color: black;
+  }
+
+  .register-container input {
+    width: 95%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+
+  .register-container button {
+    display: block;
+    background-color: #000;
+    color: #fff !important;
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+    transition: background 0.3s;
+    width: 100%;
+  }
+
+  .register-container button:hover {
+    background-color: #cc0000;
+  }
+
+  .back-button {
+    display: block;
+    background-color: #000;
+    color: #fff !important;
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+    transition: background 0.3s;
+    width: 95%;
+    text-decoration: none;
+  }
+
+  .back-button:hover {
+    background-color: #cc0000;
+    color: #fff !important;
+  }
+
+  .error-message {
+    color: #fff;
+    background: #cc0000;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 15px;
+    margin-top: 15px;
+  }
+
+  .success-message {
+    color: #fff;
+    background: #28a745;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 15px;
+    margin-top: 15px;
+  }
+</style>
+
+<div class="register-container">
+  <img src="../static/imagenes/logo.png" alt="Logo FlyCloudOne" class="logo">
+  <h2>FlyCloudOne</h2>
+  <h3>Crear cuenta 📝</h3>
+
+  <form method="POST">
+    <input type="text" name="username" placeholder="Usuario" required>
+    <input type="password" name="password" placeholder="Contraseña" required>
+    <input type="password" name="confirm_password" placeholder="Confirmar contraseña" required>
+    <button type="submit">Registrarme</button>
+  </form>
+
+  <a href="{{ url_for('login') }}" class="back-button">⬅ Volver al Login</a>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="{{ 'error-message' if category == 'error' else 'success-message' }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+{% endblock %}

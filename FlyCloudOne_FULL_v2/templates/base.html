@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}FlyCloudOne{% endblock %}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #000;
+      color: #000;
+    }
+    header {
+      text-align: center;
+      padding: 30px;
+      background: #ff4d4d;
+      color: black;
+    }
+    header img {
+      height: 80px;
+    }
+    header h1 {
+      margin: 10px 0 5px;
+      font-size: 2.2em;
+      color: #000;
+    }
+    header .slogan {
+      font-size: 1.1em;
+      font-weight: bold;
+      color: #000;
+      background: #ff4d4d;
+      padding: 6px 12px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+    .tabs {
+      display: flex;
+      justify-content: center;
+      background: #222;
+      padding: 10px;
+    }
+    .tabs button {
+      background: #ffcccc;
+      border: none;
+      padding: 10px 18px;
+      margin: 0 6px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 1em;
+      transition: all 0.3s;
+      color: #000;
+    }
+    .tabs button:hover {
+      background: #ff4d4d;
+      color: black;
+    }
+    .tabs button.active {
+      background: #cc0000;
+      color: black;
+      font-weight: bold;
+    }
+    .panel {
+      display: none;
+      padding: 20px;
+    }
+    .panel.active {
+      display: block;
+      background: red;
+      border: 2px solid #ff4d4d;
+      border-radius: 10px;
+      margin: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    form {
+      margin-bottom: 15px;
+    }
+    input[type="file"] {
+      padding: 6px;
+    }
+    button[type="submit"] {
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 0.95em;
+    }
+    button[type="submit"]:hover {
+      background: #cc0000;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .actions a {
+      margin-left: 12px;
+      color: #ff4d4d;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .actions a:hover {
+      color: #cc0000;
+    }
+    .logout-btn {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      color: #fff !important;
+      background: #000 !important;
+      padding: 10px 15px !important;
+      border-radius: 8px !important;
+      text-decoration: none !important;
+      font-weight: bold !important;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3) !important;
+      transition: background 0.3s !important;
+      z-index: 2000 !important;
+    }
+    .logout-btn:hover {
+      background: #cc0000 !important;
+      color: #fff !important;
+    }
+
+    /* Logo global */
+    .global-logo {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      opacity: 0.9;
+      transition: transform 0.3s;
+    }
+    .global-logo img {
+      width: 200px;
+      height: auto;
+    }
+    .global-logo:hover {
+      transform: scale(1.05);
+    }
+
+    /* Header de cajas (login, register, reset) */
+    .box-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .box-logo {
+      width: 300px;
+      margin-bottom: 10px;
+    }
+    .box-header h2 {
+      margin: 0;
+      font-size: 26px;
+      color: #000;
+    }
+  </style>
+
+  <script>
+    function showTab(id) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+      const btn = document.querySelector('.tabs button[data-id="' + id + '"]');
+      if (btn) btn.classList.add('active');
+      location.hash = id;
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      const hash = location.hash.replace('#', '') || 'imagenes';
+      showTab(hash);
+    });
+    function openModal(category, filename) {
+      const modal = document.getElementById("previewModal");
+      const modalImg = document.getElementById("modalImage");
+      modal.style.display = "flex";
+      modalImg.src = `/uploads/${category}/${encodeURIComponent(filename)}`;
+    }
+    function closeModal() {
+      const modal = document.getElementById("previewModal");
+      modal.style.display = "none";
+      document.getElementById("modalImage").src = "";
+    }
+  </script>
+</head>
+<body>
+  {% if request.endpoint not in ['login', 'register', 'reset_password'] %}
+    <header>
+      <img src="../static/imagenes/logo.png" alt="Logo FlyCloudOne">
+      <h1>FlyCloudOne</h1>
+      <p>Tu seguridad es prioridad 🔒</p>
+    </header>
+    <div class="tabs">
+      <button data-id="imagenes" onclick="showTab('imagenes')">📸 Imágenes</button>
+      <button data-id="musica" onclick="showTab('musica')">🎵 Música</button>
+      <button data-id="documentos" onclick="showTab('documentos')">📄 Documentos</button>
+      <button data-id="contactos" onclick="showTab('contactos')">👤 Contactos</button>
+      <button data-id="correos" onclick="showTab('correos')">📧 Correos</button>
+      <button data-id="videos" onclick="showTab('videos')">🎬 Videos</button>
+    </div>
+
+    <!-- Logo global solo en dashboard -->
+    <div class="global-logo">
+      <img src="../static/imagenes/logo.png" alt="Logo FlyCloudOne">
+    </div>
+  {% endif %}
+
+  {% block content %}{% endblock %}
+
+  <!-- Modal de previsualización -->
+  <div id="previewModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; z-index:1000;">
+    <span onclick="closeModal()" style="position:absolute; top:20px; right:30px; color:#fff; font-size:40px; font-weight:bold; cursor:pointer;">&times;</span>
+    <img id="modalImage" src="" style="max-width:90%; max-height:90%; border:3px solid #fff; border-radius:8px;">
+  </div>
+
+  {% if is_logged_in %}
+    <a href="{{ logout_url }}" class="logout-btn">Cerrar Sesión</a>
+  {% endif %}
+</body>
+</html>
+
+

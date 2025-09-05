@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}Inicio - FlyCloudOne{% endblock %}
+
+{% block content %}
+  <section id="imagenes" class="panel">
+    <h2>Imágenes</h2>
+    <form action="/upload/imagenes" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".png,.jpg,.jpeg,.gif,.webp" required />
+      <button type="submit">Subir</button>
+    </form>
+    <ul>
+      {% for f in imagenes %}
+        <li>
+          {{ f }}
+          <span class="actions">
+            <a href="/download/imagenes/{{ f }}">⬇️ Descargar</a>
+            <a href="/delete/imagenes/{{ f }}">❌ Borrar</a>
+            <a href="javascript:void(0)" onclick="openModal('imagenes', '{{ f }}')">👁 Ver</a>
+          </span>
+        </li>
+      {% else %}
+        <li>No hay imágenes aún.</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section id="musica" class="panel">
+    <h2>Música</h2>
+    <form action="/upload/musica" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".mp3,.wav,.ogg" required />
+      <button type="submit">Subir</button>
+    </form>
+    <ul>
+      {% for f in musica %}
+        <li>
+          {{ f }}
+          <span class="actions">
+            <a href="/download/musica/{{ f }}">⬇️ Descargar</a>
+            <a href="/delete/musica/{{ f }}">❌ Borrar</a>
+          </span>
+        </li>
+      {% else %}
+        <li>No hay música aún.</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section id="documentos" class="panel">
+    <h2>Documentos</h2>
+    <form action="/upload/documentos" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".pdf,.docx,.txt,.xlsx,.pptx" required />
+      <button type="submit">Subir</button>
+    </form>
+    <ul>
+      {% for f in documentos %}
+        <li>
+          {{ f }}
+          <span class="actions">
+            <a href="/download/documentos/{{ f }}">⬇️ Descargar</a>
+            <a href="/delete/documentos/{{ f }}">❌ Borrar</a>
+          </span>
+        </li>
+      {% else %}
+        <li>No hay documentos aún.</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section id="contactos" class="panel">
+    <h2>Contactos</h2>
+    <form action="/upload/contactos" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".vcf,.csv" required />
+      <button type="submit">Subir</button>
+    </form>
+    <ul>
+      {% if contactos %}
+        {% for file in contactos %}
+          <li>
+            {{ file }}
+            <div class="actions">
+              <a href="{{ url_for('download', category='contactos', filename=file) }}">⬇ Descargar</a>
+              <a href="{{ url_for('delete', category='contactos', filename=file) }}">🗑 Eliminar</a>
+            </div>
+          </li>
+        {% endfor %}
+      {% else %}
+        <li>No hay contactos aún.</li>
+      {% endif %}
+    </ul>
+  </section>
+
+  <section id="correos" class="panel">
+    <h2>Correos</h2>
+    <form action="/upload/correos" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".eml,.msg" required />
+      <button type="submit">Subir</button>
+    </form>
+    <ul>
+      {% for f in correos %}
+        <li>
+          {{ f }}
+          <span class="actions">
+            <a href="/download/correos/{{ f }}">⬇️ Descargar</a>
+            <a href="/delete/correos/{{ f }}">❌ Borrar</a>
+          </span>
+        </li>
+      {% else %}
+        <li>No hay correos aún.</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section id="videos" class="panel">
+    <h2>Videos</h2>
+    <form action="/upload/videos" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".mp4,.avi,.mov,.mkv" required />
+      <button type="submit">Subir</button>
+    </form>
+    <ul>
+      {% for f in videos %}
+        <li>
+          {{ f }}
+          <span class="actions">
+            <a href="/download/videos/{{ f }}">⬇️ Descargar</a>
+            <a href="/delete/videos/{{ f }}">❌ Borrar</a>
+          </span>
+        </li>
+      {% else %}
+        <li>No hay videos aún.</li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}

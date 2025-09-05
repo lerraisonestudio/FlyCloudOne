@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Iniciar sesión - FlyCloudOne{% endblock %}
+
+{% block content %}
+<div class="form-container">
+  <img src="../static/imagenes/logo.png" alt="Logo" class="logo">
+  <h2>FlyCloudOne</h2>
+  <h3>Iniciar sesión<h3>
+  <form method="POST" action="{{ url_for('login') }}">
+    <input type="text" name="username" placeholder="Usuario" required>
+    <input type="password" name="password" placeholder="Contraseña" required>
+    <!-- Botón Entrar con mismo estilo que los otros -->
+    <button type="submit" class="btn full">Entrar</button>
+  </form>
+  <div class="links">
+    <a href="{{ url_for('register') }}" class="btn">📑 Registrarse</a>
+    <a href="{{ url_for('reset_password') }}" class="btn">🔑 Cambiar contraseña</a>
+  </div>
+</div>
+
+<style>
+
+/* Fondo rojo en toda la página */
+  body {
+    background-color: #8F1F1F;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Esto centra vertical y horizontal */
+  }
+
+  .form-container {
+    max-width: 450px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #ff3333;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+    text-align: center;
+  }
+  .form-container .logo {
+    width: 300px;
+    margin-bottom: 10px;
+  }
+  .form-container h2 {
+    margin-bottom: 40px;
+    color: #000;
+  }
+ 
+  .form-container h3 {
+    margin-bottom: 40px;
+    color: #000;
+  }
+
+  .form-container input {
+    width: 95%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+  }
+  /* estilo general de botones */
+  .btn {
+    display: inline-block;
+    padding: 12px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.3s;
+  }
+  .btn:hover {
+    background: #cc0000;
+  }
+  /* botón de entrar ocupa todo el ancho */
+  .btn.full {
+    display: block;
+      background-color: #000;
+      color: #fff !important;
+      text-decoration: none;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 18px;
+      text-align: center;
+      transition: background 0.3s;
+      width: 101%;
+  }
+  /* botones secundarios mitad de ancho */
+  .links {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    width: 101%;
+  }
+  .links .btn {
+    flex: 1;
+  }
+
+</style>
+
+
+{% endblock %}
+
